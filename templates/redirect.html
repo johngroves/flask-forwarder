@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+   <html>
+      <head>
+         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+         {{ analytics }}
+          <script>          
+          function passData(referrer,source,medium,campaign,page){
+          var ref = 'referrer=' + referrer;
+          var sorc ='&utm_source=' + source;
+          var med = '&utm_medium=' + medium;
+          var camp = '&utm_campaign=' + campaign;
+          var term = '&utm_term=' + page;
+          redirect_url = 'https://www.icracked.com/repair/device?' + ref + sorc + med + camp + page
+          window.location.replace(redirect_url)
+          }
+          
+         </script>
+         <script>
+         function checkIfAnalyticsLoaded() {
+            if (typeof ga === 'function') {
+               ga(function(tracker) {
+                 referrer = tracker.get('referrer');
+                 source = tracker.get('campaignSource');
+                 medium = tracker.get('campaignMedium');
+                 campaign = tracker.get('campaignName');
+                 page = tracker.get('page');
+                 passData(referrer,source,medium,campaign,page);
+              });
+               
+              } 
+
+              else {
+                // Retry. Probably want to cap the total number of times you call this.
+                setTimeout(500, checkIfAnalyticsLoaded());
+              }
+            }
+            checkIfAnalyticsLoaded();
+         </script>
+        
+      </head>
+      <body>
+
+      </body>
+   </html>
